@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}จัดการเว็บไซต์ 039{% endblock %}
+{% block content %}
+<main class="paper">
+  <h1>จัดการเว็บไซต์ 039</h1>
+  <form action="{{ url_for('edit_portal') }}"><button>แก้ไขข้อมูล Portal</button></form>
+  <form action="{{ url_for('edit') }}"><button>แก้ไขสรุป Research</button></form>
+</main>
+{% endblock %}

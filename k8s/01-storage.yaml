@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: site-content-039
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  claimRef:
+    namespace: id-039
+    name: site-content-pvc
+  hostPath:
+    path: /var/local/k8sfinal/site-content
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: site-content-pvc
+  namespace: id-039
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ""
+  volumeName: site-content-039
+  resources:
+    requests:
+      storage: 1Gi

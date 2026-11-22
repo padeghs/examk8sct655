@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-research
+  namespace: id-039
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &id001
+      app: app-research
+  template:
+    metadata:
+      labels: *id001
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+      - name: app-research
+        image: localhost/id039-web:4.0
+        imagePullPolicy: Never
+        command:
+        - gunicorn
+        args:
+        - --no-control-socket
+        - --bind
+        - 0.0.0.0:5000
+        - --threads
+        - '4'
+        - research:app
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+            httpHeaders:
+            - name: Host
+              value: localhost
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+            httpHeaders:
+            - name: Host
+              value: localhost
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: content
+          mountPath: /data
+          readOnly: true
+      volumes:
+      - name: content
+        persistentVolumeClaim:
+          claimName: site-content-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-research-svc
+  namespace: id-039
+spec:
+  type: ClusterIP
+  selector:
+    app: app-research
+  ports:
+  - port: 80
+    targetPort: 5000

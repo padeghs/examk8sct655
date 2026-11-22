@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}ข้อมูลส่วนตัว · {{ profile.name }}{% endblock %}
+{% block content %}
+<main class="center">
+  <div class="profile">
+    <img src="/static/padegh.jpg" width="200" height="300" alt="รูปโปรไฟล์ของ{{ profile.name }}">
+    <h1>{{ profile.name }} รหัส นศ. {{ profile.student_id }}</h1>
+    <nav aria-label="เมนูหลัก"><a href="/">หน้าแรก</a><a href="/research">งานวิจัย</a></nav>
+  </div>
+</main>
+{% endblock %}

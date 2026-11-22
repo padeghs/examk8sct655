@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}แก้ไขข้อมูล Portal{% endblock %}
+{% block content %}
+<main class="paper">
+  <nav><a href="/">กลับหน้า Admin</a></nav>
+  <h1>แก้ไขข้อมูล Portal</h1>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <input type="hidden" name="revision" value="{{ revision }}">
+    <p><label>ชื่อ <input name="name" maxlength="120" value="{{ profile.name }}" required></label></p>
+    <p><label>รหัสนักศึกษา <input name="student_id" pattern="[0-9]{8}" value="{{ profile.student_id }}" required></label></p>
+    <button type="submit">บันทึกการแก้ไข</button>
+  </form>
+</main>
+{% endblock %}
