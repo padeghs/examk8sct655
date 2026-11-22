@@ -1,0 +1,8 @@
+*.tar
+*.tar.gz
+__pycache__/
+*.pyc
+.env
+.kube/
+*kubeconfig*
+rancher-deploy.yaml
